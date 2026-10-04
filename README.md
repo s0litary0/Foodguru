@@ -18,12 +18,25 @@ solves is fundamental and often plagues many people, including myself — “wh
 7. User can create new lists of his recipes (for example breakfasts, dinner, etc.)
 
 ## Current folder structure
-<img src="folder-structure.png" alt="Folder structure">
+<img src="./folder-structure.png" alt="Folder structure">
+
+## Screen wireframes
+![Home wireframe](./design/wireframes/home_screen_wireframe.png)
+
+![Search wireframe](./design/wireframes/search_screen_wireframe.png)
+
+![Details wireframe](./design/wireframes/details_screen_wireframe.png)
+
+## Screen layouts
+![Home layout](./design/layouts/home_screen_layout.png)
+
+![Search layout](./design/layouts/search_screen_layout.png)
+
+![Detials layout](./design/layouts/details_screen_layout.png)
 
 ## Basic build run instruction
 To build and run app, follow these steps:
 
-1. Install Android SDK Platforms tools and either connect android smartphone with USB debuggin enabled or use Android Emulator.
-2. Verify your device is connected `adb devices`.
-3. Install the app. `adb install path/to/your_app.apk`.
-4. Run the app `adb shell am start -n com.example.myapp/com.example.myapp.MainActivity`.
+1. Open Android Studio
+2. Connect android device with debugging mode activated, or create a virtual device.
+3. Click build app button
