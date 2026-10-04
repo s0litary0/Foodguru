@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Foodguru</string>
+    <string name="meal_image">Meal image</string>
+    <string name="recipe_of_the_day">Recipe of the day</string>
+    <string name="search">Search</string>
+<!--    <string name="app_name">Foodguru</string>-->
 </resources>
