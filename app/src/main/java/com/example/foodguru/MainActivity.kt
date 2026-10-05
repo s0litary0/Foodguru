@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.foodguru.ui.components.HomeNavScreen
-import com.example.foodguru.ui.components.ScreenLayout
+import com.example.foodguru.ui.components.AppLayout
 import com.example.foodguru.ui.components.SearchNavScreen
 import com.example.foodguru.ui.components.foodguruBottomNavBarScreens
 import com.example.foodguru.ui.features.home.HomeScreen
@@ -41,7 +41,7 @@ fun FoodguruApp() {
             currentDestination?.route == screen.route
         } ?: SearchNavScreen
 
-        ScreenLayout(
+        AppLayout(
             currentNavScreen = currentNavScreen,
             onNavBarItemClick = { newNavScreen ->
                 navController.navigateSingleTopTo(newNavScreen.route)

@@ -3,12 +3,9 @@ package com.example.foodguru.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,15 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.foodguru.R
-import com.example.foodguru.ui.features.details.Meal
 
 @Composable
-fun MealCard(
-    meal: Meal,
+fun RecipeOfTheDay(
+    recipeId: Long,
+    title: String,
+    image: String,
+    type: List<String>,
+    onClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -39,8 +38,9 @@ fun MealCard(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
-
-            },
+                onClick(recipeId)
+            }
+            .widthIn(max = 200.dp),
     ) {
         Column(
             horizontalAlignment = Alignment.Start,
@@ -55,17 +55,12 @@ fun MealCard(
                 )
             )
             Text(
-                text = meal.strMeal,
+                text = title,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
-            Text(
-                text = meal.strCategory,
-                style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier
-            )
             AsyncImage(
-                model = meal.strMealThumb,
+                model = image,
                 contentDescription = stringResource(R.string.meal_image),
                 modifier = Modifier
                     .fillMaxWidth()

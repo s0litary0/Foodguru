@@ -1,37 +1,30 @@
 package com.example.foodguru.ui.features.home
 
-import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import com.example.foodguru.ui.features.details.Meal
 
+import androidx.lifecycle.ViewModel
+import com.example.foodguru.ui.features.details.getRecipeById
+import com.example.foodguru.ui.features.search.Recipe
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
+
+
+sealed class HomeUiState {
+    data class Success(val recipeOfTheDay: Recipe) : HomeUiState()
+    data object Loading : HomeUiState()
+}
 
 
 class HomeViewModel : ViewModel() {
-    private var _randomMeal by mutableStateOf<Meal>(getRandomMeal())
-    private var _textFieldState = TextFieldState()
+    private val _uiState: MutableStateFlow<HomeUiState> =
+        MutableStateFlow(
+            HomeUiState.Loading
+        )
+    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    val randomMeal: Meal
-        get() = _randomMeal
 
-    val textFieldState: TextFieldState
-        get() = _textFieldState
-
-    fun search() {
-
+    init {
+        _uiState.value = HomeUiState.Success(getRecipeById(1))
     }
 }
-
-private fun getRandomMeal() = Meal(
-    "53225",
-    "Yemeni Lahsa (Elite Shakshuka)",
-    "Breakfast",
-    "Saudi Arabian",
-    "Saudi Arabia",
-    "1\r\nFirst, On medium heat, heat the olive oil and add the diced onion until it wethers. Next, add the tomatoes and cook for another 4-5 min. Lastly, add the all spice, salt, and cracked pepper.\r\n2\r\nAdd the eggs and mix throughly for 2 minutes and cover to cook 5-6 minutes until top is solidified. Lastly, spread the liquid cheese and have it covered for a minute.\r\n3\r\nI served mine Mediterranean style with hash-browns, Egyptian fava beans, Turkish salami and olives, cheese wedges, and greek feta.",
-    "https://www.themealdb.com/images/media/meals/30s7vf1763741844.jpg",
-    null,
-    "https://www.youtube.com/shorts/1QX-KBX6tmM",
-)

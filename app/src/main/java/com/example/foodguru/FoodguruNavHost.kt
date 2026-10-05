@@ -21,11 +21,10 @@ fun FoodguruNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-
     NavHost(
         navController = navController,
         startDestination = Home.route,
-        modifier = modifier.padding(16.dp),
+        modifier = modifier,
 //        enterTransition = {
 //            EnterTransition.None
 //        },
@@ -40,7 +39,11 @@ fun FoodguruNavHost(
 //        }
     ) {
         composable(route = Home.route) {
-            HomeScreen()
+            HomeScreen(
+                onRecipeOfTheDayClick = { recipeId ->
+                    navController.navigateToSingleRecipe(recipeId)
+                }
+            )
         }
         composable(route = Search.route) {
             SearchScreen(
