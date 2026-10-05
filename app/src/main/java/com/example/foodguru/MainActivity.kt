@@ -15,6 +15,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.foodguru.ui.components.HomeNavScreen
 import com.example.foodguru.ui.components.ScreenLayout
+import com.example.foodguru.ui.components.SearchNavScreen
 import com.example.foodguru.ui.components.foodguruBottomNavBarScreens
 import com.example.foodguru.ui.features.home.HomeScreen
 import com.example.foodguru.ui.theme.FoodguruTheme
@@ -38,7 +39,7 @@ fun FoodguruApp() {
         val currentDestination = currentBackStack?.destination
         val currentNavScreen = foodguruBottomNavBarScreens.find { screen ->
             currentDestination?.route == screen.route
-        } ?: HomeNavScreen
+        } ?: SearchNavScreen
 
         ScreenLayout(
             currentNavScreen = currentNavScreen,

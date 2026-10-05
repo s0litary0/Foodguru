@@ -24,6 +24,7 @@ import com.example.foodguru.ui.components.RecipeListCard
 
 @Composable
 fun SearchScreen(
+    onRecipeClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     searchViewModel: SearchViewModel = viewModel()
 ) {
@@ -58,17 +59,18 @@ fun SearchScreen(
             }
         }
         LazyVerticalGrid(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             columns = GridCells.Adaptive(minSize = 128.dp),
             modifier = Modifier
         ) {
             items(searchViewModel.recipes) { recipe ->
                 RecipeListCard(
+                    id = recipe.id,
                     image = recipe.image,
                     title = recipe.name,
 //                    tags = recipe.tags.map { label -> Tag(label = label)},
-                    onClick = {}
+                    onClick = { recipeId -> onRecipeClick(recipeId) }
                 )
             }
         }

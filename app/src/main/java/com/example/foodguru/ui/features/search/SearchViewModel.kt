@@ -8,7 +8,15 @@ class SearchViewModel : ViewModel() {
 
     private var _recipes = getRecipesList().toMutableStateList()
     val recipes: List<Recipe>
-        get() = _recipes
+        get() = if (_selectedTags.isEmpty()) {
+            _recipes
+        } else {
+            _recipes.filter { recipe ->
+                _selectedTags.all { tag ->
+                    tag.label in recipe.tags
+                }
+            }
+        }
 
     private var _tags = getTags().toMutableStateList()
     val tags: List<Tag>

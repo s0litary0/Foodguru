@@ -33,6 +33,6 @@ data object SingleRecipe : FoodguruDestination {
     const val recipeIdArg = "recipe_id"
     val routeWithArgs = "$route/{${recipeIdArg}}"
     val arguments = listOf(
-        navArgument(recipeIdArg,) { type = NavType.IntType }
+        navArgument(recipeIdArg,) { type = NavType.LongType }
     )
 }

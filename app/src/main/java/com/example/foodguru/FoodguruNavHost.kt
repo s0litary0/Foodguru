@@ -10,7 +10,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.foodguru.ui.features.details.RecipeDetailsScreen
 import com.example.foodguru.ui.features.home.HomeScreen
+import com.example.foodguru.ui.features.search.Recipe
 import com.example.foodguru.ui.features.search.SearchScreen
 
 
@@ -41,7 +43,11 @@ fun FoodguruNavHost(
             HomeScreen()
         }
         composable(route = Search.route) {
-            SearchScreen()
+            SearchScreen(
+                onRecipeClick = { recipeId ->
+                    navController.navigateToSingleRecipe(recipeId)
+                }
+            )
         }
         composable(route = MyRecipes.route) {
 
@@ -54,8 +60,10 @@ fun FoodguruNavHost(
             arguments = SingleRecipe.arguments
         ) { navBackStackEntry ->
             val recipeId =
-                navBackStackEntry.arguments?.getInt(SingleRecipe.recipeIdArg)
-
+                navBackStackEntry.arguments?.getLong(SingleRecipe.recipeIdArg)
+            RecipeDetailsScreen(
+                recipeId = recipeId
+            )
         }
     }
 }
@@ -71,6 +79,6 @@ fun NavHostController.navigateSingleTopTo(route: String) =
         launchSingleTop = true
     }
 
-private fun NavHostController.navigateToSingleRecipe(recipeId: Int) {
+private fun NavHostController.navigateToSingleRecipe(recipeId: Long) {
     this.navigateSingleTopTo(route = "${SingleRecipe.route}/$recipeId")
 }
