@@ -20,10 +20,8 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(24.dp),
         modifier = modifier
-            .padding(horizontal = 16.dp)
-
     ) {
-        AppSearchBar(
+        HomeTopAppBar(
             textFieldState = homeViewModel.textFieldState,
             onSearch = { homeViewModel.search() },
             searchResults = emptyList(),

@@ -1,0 +1,57 @@
+package com.example.foodguru.ui.components
+
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSearchBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import com.example.foodguru.R
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppSearchBar(
+    textFieldState: TextFieldState,
+    onSearch: (String) -> Unit,
+    searchResults: List<String>,
+    modifier: Modifier = Modifier,
+) {
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    SearchBar(
+        modifier = modifier,
+        state = rememberSearchBarState(),
+        inputField = {
+            SearchBarDefaults.InputField(
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(R.drawable.search_24px),
+                        contentDescription = stringResource(R.string.search)
+                    )
+                },
+                query = textFieldState.text.toString(),
+                onQueryChange = {
+                    textFieldState.edit {
+                        replace(0, length, it)
+                    }
+                },
+                onSearch = {
+                    onSearch(textFieldState.text.toString())
+                    expanded = false
+                },
+                expanded = false,
+                onExpandedChange = { expanded = it },
+                placeholder = { Text(text = stringResource(R.string.search)) }
+            )
+        },
+    )
+}

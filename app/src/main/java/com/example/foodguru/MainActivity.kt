@@ -4,9 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.example.foodguru.ui.components.HomeNavScreen
 import com.example.foodguru.ui.components.ScreenLayout
+import com.example.foodguru.ui.components.foodguruBottomNavBarScreens
 import com.example.foodguru.ui.features.home.HomeScreen
 import com.example.foodguru.ui.theme.FoodguruTheme
 
@@ -15,11 +24,31 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            FoodguruTheme {
-                ScreenLayout() {
-                    HomeScreen()
-                }
+            FoodguruApp()
+        }
+    }
+}
+
+
+@Composable
+fun FoodguruApp() {
+    FoodguruTheme {
+        val navController = rememberNavController()
+        val currentBackStack by navController.currentBackStackEntryAsState()
+        val currentDestination = currentBackStack?.destination
+        val currentNavScreen = foodguruBottomNavBarScreens.find { screen ->
+            currentDestination?.route == screen.route
+        } ?: HomeNavScreen
+
+        ScreenLayout(
+            currentNavScreen = currentNavScreen,
+            onNavBarItemClick = { newNavScreen ->
+                navController.navigateSingleTopTo(newNavScreen.route)
             }
+        ) {
+            FoodguruNavHost(
+                navController = navController,
+            )
         }
     }
 }

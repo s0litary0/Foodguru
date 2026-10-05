@@ -4,68 +4,91 @@ package com.example.foodguru.ui.components
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.example.foodguru.R
 
 
-data class Route(val painter: Painter, val label: String, val route: String)
+interface NavBarDestinationScreen {
+    val icon: Int
+    val iconFilled: Int
+    val label: String
+    val route: String
+}
+
+
+data object HomeNavScreen : NavBarDestinationScreen {
+    override val icon = R.drawable.home_24px
+    override val iconFilled = R.drawable.home_filled_24px
+    override val label = "Home"
+    override val route = "home"
+}
+
+
+data object SearchNavScreen : NavBarDestinationScreen {
+    override val icon = R.drawable.search_24px
+    override val iconFilled = R.drawable.search_24px
+    override val label = "Search"
+    override val route = "search"
+}
+
+
+data object MyRecipesNavScreen : NavBarDestinationScreen {
+    override val icon = R.drawable.bookmark_24px
+    override val iconFilled = R.drawable.bookmark_filled_24px
+    override val label = "My Recipes"
+    override val route = "my_recipes"
+}
+
+
+data object ProfileNavScreen : NavBarDestinationScreen {
+    override val icon = R.drawable.person_24px
+    override val iconFilled = R.drawable.person_filled_24px
+    override val label = "Profile"
+    override val route = "profile"
+}
+
+val foodguruBottomNavBarScreens = listOf(
+    HomeNavScreen, SearchNavScreen, MyRecipesNavScreen, ProfileNavScreen
+)
 
 @Composable
 fun ScreenLayout(
+    currentNavScreen: NavBarDestinationScreen,
+    onNavBarItemClick: (NavBarDestinationScreen) -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    val routes = listOf<Route>(
-        Route(
-            painter = painterResource(R.drawable.home_24px),
-            label = "Home",
-            route="home"
-        ),
-        Route(
-            painter = painterResource(R.drawable.search_24px),
-            label = "Search",
-            route="search"
-        ),
-        Route(
-            painter = painterResource(R.drawable.bookmark_24px),
-            label = "My recipes",
-            route="my_recipes"
-        ),
-        Route(
-            painter = painterResource(R.drawable.person_24px),
-            label = "Profile",
-            route="profile"
-        ),
-
-    )
     Scaffold(
         modifier = modifier,
         bottomBar = {
             NavigationBar(
                 modifier = Modifier,
             ) {
-                routes.forEachIndexed { index, route ->
+                foodguruBottomNavBarScreens.forEach { screen ->
+                    val selected: Boolean = screen == currentNavScreen
                     NavigationBarItem(
-                        selected = false,
-                        onClick = {},
+                        selected = selected,
+                        onClick = { onNavBarItemClick(screen) },
                         icon = {
                             Icon(
-                                painter = route.painter,
-                                contentDescription = route.label
+                                painter = painterResource(
+                                    id =
+                                        if (selected) screen.iconFilled
+                                        else screen.icon
+                                ),
+                                contentDescription = screen.label
                             )
                         },
                         label = {
-                            Text(text=route.label)
+                            Text(text = screen.label)
                         }
                     )
                 }

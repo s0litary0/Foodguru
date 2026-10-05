@@ -56,7 +56,8 @@ fun MealCard(
             )
             Text(
                 text = meal.strMeal,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Text(
                 text = meal.strCategory,
