@@ -4,4 +4,6 @@
     <string name="recipe_of_the_day">Recipe of the day</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
+    <string name="go_back">Go back</string>
+    <string name="recipe_details">Recipe details</string>
 </resources>

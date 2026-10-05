@@ -41,7 +41,7 @@ class SearchViewModel : ViewModel() {
 
 }
 
-private fun getTags(): List<Tag> = listOf(
+fun getTags(): List<Tag> = listOf(
     Tag(label = "Pizza"),
     Tag(label = "Italian"),
     Tag(label = "Vegetarian"),
@@ -61,7 +61,7 @@ private fun getTags(): List<Tag> = listOf(
     Tag(label = "Shrimp")
 )
 
-private fun getRecipesList(): List<Recipe> = listOf(
+fun getRecipesList(): List<Recipe> = listOf(
     Recipe(
         id = 1L,
         name = "Classic Margherita Pizza",

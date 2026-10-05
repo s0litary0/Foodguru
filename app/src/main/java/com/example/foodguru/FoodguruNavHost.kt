@@ -59,10 +59,10 @@ fun FoodguruNavHost(
             route = SingleRecipe.routeWithArgs,
             arguments = SingleRecipe.arguments
         ) { navBackStackEntry ->
-            val recipeId =
-                navBackStackEntry.arguments?.getLong(SingleRecipe.recipeIdArg)
+//            val recipeId =
+//                navBackStackEntry.arguments?.getLong(SingleRecipe.recipeIdArg)
             RecipeDetailsScreen(
-                recipeId = recipeId
+                onBackClicked = { navController.popBackStack() }
             )
         }
     }
@@ -70,11 +70,6 @@ fun FoodguruNavHost(
 
 fun NavHostController.navigateSingleTopTo(route: String) =
     this.navigate(route = route) {
-        popUpTo(
-            this@navigateSingleTopTo.graph.findStartDestination().id
-        ) {
-            saveState = true
-        }
         restoreState = true
         launchSingleTop = true
     }

@@ -1,0 +1,60 @@
+package com.example.foodguru.ui.features.details
+
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.example.foodguru.R
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BackTopAppBar(
+    title: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TopAppBar(
+        title = {
+            Text(
+                text = title
+            )
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+//            containerColor = MaterialTheme.colorScheme.primaryContainer,
+//            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        ),
+        modifier = modifier
+            .border(
+                1.dp,
+                MaterialTheme.colorScheme.outline
+            ),
+        navigationIcon = {
+            IconButton(
+                onClick = onClick,
+                modifier = Modifier
+                    .size(40.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.arrow_back_24px),
+                    contentDescription = stringResource(R.string.go_back
+                    ),
+                    modifier = Modifier
+                        .size(32.dp),
+                )
+
+            }
+        }
+    )
+}
