@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -57,7 +58,8 @@ fun FoodguruApp() {
                             title = HomeNavScreen.label,
                             navigationIcon = {
                                 IconButton(
-                                    onClick = {}
+                                    onClick = {},
+                                    modifier = Modifier.size(40.dp)
                                 ) {
                                     Icon(
                                         painter = painterResource(R.drawable.settings_32px),

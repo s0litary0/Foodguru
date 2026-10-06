@@ -18,7 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.example.foodguru.ui.theme.FoodguruTheme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +40,8 @@ fun TitleTopAppBar(
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = NavigationBarDefaults.containerColor
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            titleContentColor = MaterialTheme.colorScheme.onSurface
         ),
         actions = {
             Row(
@@ -50,4 +54,15 @@ fun TitleTopAppBar(
             .fillMaxWidth()
 //            .background(NavigationBarDefaults.containerColor),
     )
+}
+
+
+@PreviewLightDark
+@Composable
+fun TitleTopAppBarPreview() {
+    FoodguruTheme {
+        TitleTopAppBar(
+            title = "Title"
+        )
+    }
 }

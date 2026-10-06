@@ -57,7 +57,7 @@ fun RecipeOfTheDay(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.primary
             )
             AsyncImage(
                 model = image,

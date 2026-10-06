@@ -8,8 +8,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import com.example.foodguru.FoodguruApp
 import com.example.foodguru.ui.components.AppSearchBar
+import com.example.foodguru.ui.theme.FoodguruTheme
 
 
 @Composable
@@ -38,6 +42,23 @@ fun SearchScreenContent(
         RecipeList(
             recipes = recipes,
             onRecipeClick = onRecipeClick
+        )
+    }
+}
+
+
+@Preview(
+    showBackground = true
+)
+@Composable
+fun SearchScreenContentPreview() {
+    FoodguruTheme {
+        SearchScreenContent(
+            recipes = getRecipesList(),
+            tags = getTags(),
+            selectedTags = getTags().filterIndexed { index, tag -> index % 2 == 0 },
+            toggleTag = {  },
+            onRecipeClick = {   }
         )
     }
 }

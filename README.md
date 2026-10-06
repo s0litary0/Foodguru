@@ -34,6 +34,20 @@ solves is fundamental and often plagues many people, including myself — “wh
 
 ![Detials layout](./design/layouts/details_screen_layout.png)
 
+## Screens light theme
+![Home screen light](./design/screens/light/home.png)
+
+![Search screen light](./design/screens/light/search.png)
+
+![Recipe details screen light](./design/screens/light/recipe_details.png)
+
+## Screens dark theme
+![Home screen dark](./design/screens/dark/home.png)
+
+![Search screen dark](./design/screens/dark/search.png)
+
+![Recipe details screen dark](./design/screens/dark/recipe_details.png)
+
 ## Basic build run instruction
 To build and run app, follow these steps:
 

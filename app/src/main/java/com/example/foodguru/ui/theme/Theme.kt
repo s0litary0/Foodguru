@@ -113,8 +113,8 @@ private val darkColorScheme = darkColorScheme(
 
 @Composable
 fun FoodguruTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-//    darkTheme: Boolean = false,
+//    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     content: @Composable() () -> Unit,
 ) {
     val colorScheme = when {
