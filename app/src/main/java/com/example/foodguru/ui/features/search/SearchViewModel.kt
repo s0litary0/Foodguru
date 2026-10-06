@@ -1,44 +1,56 @@
 package com.example.foodguru.ui.features.search
 
-import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
+
+sealed class SearchUiState {
+    data class Success(
+        val recipes: List<Recipe>,
+        val tags: List<Tag>,
+        val selectedTags: List<Tag>,
+    ) : SearchUiState()
+    object Loading : SearchUiState()
+}
 
 
 class SearchViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Loading)
+    val uiState = _uiState.asStateFlow()
 
-    private var _recipes = getRecipesList().toMutableStateList()
-    val recipes: List<Recipe>
-        get() = if (_selectedTags.isEmpty()) {
-            _recipes
+    init {
+        _uiState.value = SearchUiState.Success(
+            recipes = getRecipesList(),
+            tags = getTags(),
+            selectedTags = emptyList()
+        )
+    }
+
+    fun toggleTag(tag: Tag): Unit {
+        val currentState = _uiState.value
+        if (currentState !is SearchUiState.Success) return
+        val selectedTags = if (tag in currentState.selectedTags) {
+            currentState.selectedTags - tag
         } else {
-            _recipes.filter { recipe ->
-                _selectedTags.all { tag ->
+            currentState.selectedTags + tag
+        }
+
+        val recipes = if (selectedTags.isEmpty()) {
+            getRecipesList()
+        } else {
+            getRecipesList().filter { recipe ->
+                selectedTags.all { tag ->
                     tag.label in recipe.tags
                 }
             }
         }
 
-    private var _tags = getTags().toMutableStateList()
-    val tags: List<Tag>
-        get() = _tags
-
-    private var _selectedTags = emptyList<Tag>().toMutableStateList()
-
-    val selectedTasks: List<Tag>
-        get() = _selectedTags
-
-    fun toggleTag(tag: Tag) {
-        if (tag in _selectedTags) {
-            _selectedTags.remove(tag)
-        } else {
-            _selectedTags.add(tag)
-        }
+        _uiState.value = currentState.copy(
+            recipes = recipes,
+            selectedTags = selectedTags
+        )
     }
-
-    fun isTagSelected(tag: Tag): Boolean {
-        return tag in _selectedTags
-    }
-
 }
 
 fun getTags(): List<Tag> = listOf(

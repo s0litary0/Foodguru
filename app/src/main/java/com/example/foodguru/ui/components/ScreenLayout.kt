@@ -14,14 +14,12 @@ import androidx.compose.ui.unit.dp
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ScreenLayout(
-    topBar: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     Column(
         modifier = modifier
     ) {
-        topBar()
         Column(
             modifier = Modifier
                 .padding(16.dp)

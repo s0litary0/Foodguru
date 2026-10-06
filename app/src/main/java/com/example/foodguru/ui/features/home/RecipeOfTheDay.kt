@@ -1,4 +1,4 @@
-package com.example.foodguru.ui.components
+package com.example.foodguru.ui.features.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -50,7 +50,7 @@ fun RecipeOfTheDay(
         ) {
             Text(
                 text = stringResource(R.string.recipe_of_the_day),
-                style = MaterialTheme.typography.titleSmall.copy(
+                style = MaterialTheme.typography.titleMedium.copy(
                     fontStyle = FontStyle.Italic
                 )
             )

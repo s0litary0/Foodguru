@@ -54,18 +54,21 @@ data object ProfileNavScreen : NavBarDestinationScreen {
     override val route = "profile"
 }
 
+
 val foodguruBottomNavBarScreens = listOf(
     HomeNavScreen, SearchNavScreen, MyRecipesNavScreen, ProfileNavScreen
 )
 
 @Composable
 fun AppLayout(
+    topBar: @Composable () -> Unit,
     currentNavScreen: NavBarDestinationScreen,
     onNavBarItemClick: (NavBarDestinationScreen) -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     Scaffold(
+        topBar = topBar,
         modifier = modifier,
         bottomBar = {
             NavigationBar(

@@ -7,4 +7,9 @@
     <string name="go_back">Go back</string>
     <string name="recipe_details">Recipe details</string>
     <string name="home_screen_title">Home</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instruction">Instructions</string>
+    <string name="save">Save</string>
+    <string name="tags">Tags</string>
+    <string name="no_recipes_found">No recipes found</string>
 </resources>

@@ -9,22 +9,28 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 
-data class RecipeDetailsUiState(
-    val recipe: Recipe? = null
-)
+
+sealed class RecipeDetailsUiState {
+    data class Success(val recipe: Recipe) : RecipeDetailsUiState()
+    object Loading : RecipeDetailsUiState()
+}
 
 class RecipeDetailsViewModel(val savedStateHandle: SavedStateHandle) : ViewModel() {
 
     private val _recipeId = savedStateHandle.getStateFlow("recipe_id", 1L)
-    private val _uiState =
-        MutableStateFlow(RecipeDetailsUiState())
+    private val _uiState: MutableStateFlow<RecipeDetailsUiState> =
+        MutableStateFlow(RecipeDetailsUiState.Loading)
 
     val uiState: StateFlow<RecipeDetailsUiState> = _uiState.asStateFlow()
 
     init {
-        _uiState.value = RecipeDetailsUiState(
+        _uiState.value = RecipeDetailsUiState.Success(
             recipe = getRecipeById(_recipeId.value)
         )
+    }
+
+    fun onSave() {
+
     }
 }
 

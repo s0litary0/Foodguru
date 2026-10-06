@@ -29,6 +29,7 @@ data object Profile : FoodguruDestination {
 
 
 data object SingleRecipe : FoodguruDestination {
+    const val label = "Recipe details"
     override val route = "recipes"
     const val recipeIdArg = "recipe_id"
     val routeWithArgs = "$route/{${recipeIdArg}}"

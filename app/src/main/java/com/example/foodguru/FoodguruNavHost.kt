@@ -1,18 +1,12 @@
 package com.example.foodguru
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.foodguru.ui.features.details.RecipeDetailsScreen
 import com.example.foodguru.ui.features.home.HomeScreen
-import com.example.foodguru.ui.features.search.Recipe
 import com.example.foodguru.ui.features.search.SearchScreen
 
 
@@ -25,18 +19,6 @@ fun FoodguruNavHost(
         navController = navController,
         startDestination = Home.route,
         modifier = modifier,
-//        enterTransition = {
-//            EnterTransition.None
-//        },
-//        exitTransition = {
-//            ExitTransition.None
-//        },
-//        popEnterTransition = {
-//            EnterTransition.None
-//        },
-//        popExitTransition = {
-//            ExitTransition.None
-//        }
     ) {
         composable(route = Home.route) {
             HomeScreen(
@@ -64,9 +46,7 @@ fun FoodguruNavHost(
         ) { navBackStackEntry ->
 //            val recipeId =
 //                navBackStackEntry.arguments?.getLong(SingleRecipe.recipeIdArg)
-            RecipeDetailsScreen(
-                onBackClicked = { navController.popBackStack() }
-            )
+            RecipeDetailsScreen()
         }
     }
 }
