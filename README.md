@@ -21,32 +21,41 @@ solves is fundamental and often plagues many people, including myself — “wh
 <img src="./folder-structure.png" alt="Folder structure">
 
 ## Screen wireframes
-![Home wireframe](./design/wireframes/home_screen_wireframe.png)
+<div class="layout wireframes">
+    <img src="./design/wireframes/home_screen_wireframe.png" alt="Home wireframe">
+    <img src="./design/wireframes/search_screen_wireframe.png" alt="Search wireframe">
+    <img src="./design/wireframes/details_screen_wireframe.png" alt="Details wireframe">
+</div>
 
-![Search wireframe](./design/wireframes/search_screen_wireframe.png)
-
-![Details wireframe](./design/wireframes/details_screen_wireframe.png)
 
 ## Screen layouts
-![Home layout](./design/layouts/home_screen_layout.png)
-
-![Search layout](./design/layouts/search_screen_layout.png)
-
-![Detials layout](./design/layouts/details_screen_layout.png)
+<div class="layout layouts">
+    <img src="./design/layouts/home_screen_layout.png">
+    <img src="./design/layouts/search_screen_layout.png">
+    <img src="./design/layouts/details_screen_layout.png">
+</div>
 
 ## Screens light theme
-![Home screen light](./design/screens/light/home.png)
-
-![Search screen light](./design/screens/light/search.png)
-
-![Recipe details screen light](./design/screens/light/recipe_details.png)
+<div class="layout">
+    <img src="./design/screens/light/home.png">
+    <img src="./design/screens/light/search.png">
+    <img src="./design/screens/light/recipe_details.png">
+</div>
 
 ## Screens dark theme
-![Home screen dark](./design/screens/dark/home.png)
+<div class="layout">
+    <img src="./design/screens/dark/home.png">
+    <img src="./design/screens/dark/search.png">
+    <img src="./design/screens/dark/recipe_details.png">
+</div>
 
-![Search screen dark](./design/screens/dark/search.png)
+## App architecture
+<img src="./design//architecture/app_architecture.jpg">
 
-![Recipe details screen dark](./design/screens/dark/recipe_details.png)
+#### Trace one click
+When the user on search screen taps the recipe card, the functions (events) are being invoked in this order:
+RecipeListCard:onClick -> SearchScreenContent:onRecipeClick -> SearchScreen:viewModel.onSearch(query)
+ViewModel's onSearch edits TextFieldState.text, triggering StateFlow emit updating uiState, showing new recipes list.
 
 ## Basic build run instruction
 To build and run app, follow these steps:
@@ -54,3 +63,20 @@ To build and run app, follow these steps:
 1. Open Android Studio
 2. Connect android device with debugging mode activated, or create a virtual device.
 3. Click build app button
+
+<style>
+img {
+    /* aspect-ratio: 1; */
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 16px;
+}
+
+.wireframes, .layouts {
+    max-height: 100%;
+}
+</style>
