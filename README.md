@@ -65,18 +65,16 @@ To build and run app, follow these steps:
 3. Click build app button
 
 <style>
-img {
-    /* aspect-ratio: 1; */
-}
-
-.layout {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 1fr;
-    gap: 16px;
-}
-
-.wireframes, .layouts {
-    max-height: 100%;
-}
+    img {
+        /* aspect-ratio: 1; */
+    }
+    .layout {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 1fr;
+        gap: 16px;
+    }
+    .wireframes, .layouts {
+        max-height: 100%;
+    }
 </style>
