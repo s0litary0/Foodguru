@@ -1,8 +1,22 @@
 package com.example.foodguru.ui.features.search
 
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.time.debounce
+import kotlin.time.Duration.Companion.milliseconds
 
 
 sealed class SearchUiState {
@@ -10,46 +24,68 @@ sealed class SearchUiState {
         val recipes: List<Recipe>,
         val tags: List<Tag>,
         val selectedTags: List<Tag>,
+        val searchResults: List<String>
     ) : SearchUiState()
     object Loading : SearchUiState()
 }
 
 
 class SearchViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Loading)
-    val uiState = _uiState.asStateFlow()
+    val textFieldState = TextFieldState()
+    private val _selectedTagsFlow = MutableStateFlow<List<Tag>>(emptyList())
 
-    init {
-        _uiState.value = SearchUiState.Success(
-            recipes = getRecipesList(),
-            tags = getTags(),
-            selectedTags = emptyList()
-        )
-    }
+    @OptIn(FlowPreview::class)
+    private val _debouncedQueryFlow = snapshotFlow { textFieldState.text }
+        .map { it.toString().trim()}
+        .debounce(300.milliseconds)
+//        .distinctUntilChanged()
 
-    fun toggleTag(tag: Tag): Unit {
-        val currentState = _uiState.value
-        if (currentState !is SearchUiState.Success) return
-        val selectedTags = if (tag in currentState.selectedTags) {
-            currentState.selectedTags - tag
-        } else {
-            currentState.selectedTags + tag
-        }
+    val uiState: StateFlow<SearchUiState> = combine(
+        _debouncedQueryFlow,
+        _selectedTagsFlow
+    ) {query, selectedTags ->
 
-        val recipes = if (selectedTags.isEmpty()) {
-            getRecipesList()
-        } else {
-            getRecipesList().filter { recipe ->
-                selectedTags.all { tag ->
-                    tag.label in recipe.tags
-                }
+        var filteredRecipes = getRecipesList()
+        if (selectedTags.isNotEmpty()) {
+            filteredRecipes = filteredRecipes.filter { recipe ->
+                selectedTags.all {tag -> tag.label in recipe.tags }
             }
         }
+        if (query.isNotEmpty()) {
+            filteredRecipes = filteredRecipes.filter { recipe ->
+                recipe.name.contains(query, ignoreCase = true)
+            }
+        }
+        val searchResults =
+            if (query.isNotEmpty()) filteredRecipes.map { it.name } else emptyList()
 
-        _uiState.value = currentState.copy(
-            recipes = recipes,
-            selectedTags = selectedTags
+        SearchUiState.Success(
+            recipes = filteredRecipes,
+            tags = getTags(),
+            selectedTags = selectedTags,
+            searchResults = searchResults
         )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = SearchUiState.Loading
+    )
+
+    fun toggleTag(tag: Tag): Unit {
+       val selectedTags = _selectedTagsFlow.value
+        _selectedTagsFlow.value = if (tag in selectedTags) {
+            selectedTags - tag
+        } else {
+            selectedTags + tag
+        }
+    }
+
+    fun onSearch(query: String): Unit {
+        if (query.trim().isEmpty()) {
+            return
+        }
+
+        textFieldState.edit { replace(0, length, query.trim()) }
     }
 }
 

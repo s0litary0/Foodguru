@@ -2,6 +2,7 @@ package com.example.foodguru.ui.features.search
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -23,6 +24,9 @@ fun SearchScreenContent(
     selectedTags: List<Tag>,
     toggleTag: (Tag) -> Unit,
     onRecipeClick: (Long) -> Unit,
+    textFieldState: TextFieldState,
+    searchResults: List<String>,
+    onSearch: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -30,9 +34,14 @@ fun SearchScreenContent(
         modifier = modifier
     ) {
         AppSearchBar(
-            TextFieldState(""),
-            onSearch = {},
-            searchResults = emptyList()
+            modifier = Modifier
+                .fillMaxWidth(),
+            textFieldState = textFieldState,
+            placeholder = "Search recipes...",
+            searchResults = searchResults,
+            onSearch = { query ->
+                onSearch(query)
+            },
         )
         SearchTagsFilter(
             tags = tags,
@@ -58,7 +67,10 @@ fun SearchScreenContentPreview() {
             tags = getTags(),
             selectedTags = getTags().filterIndexed { index, tag -> index % 2 == 0 },
             toggleTag = {  },
-            onRecipeClick = {   }
+            onRecipeClick = {   },
+            textFieldState = TextFieldState(),
+            searchResults = emptyList(),
+            onSearch = {  }
         )
     }
 }

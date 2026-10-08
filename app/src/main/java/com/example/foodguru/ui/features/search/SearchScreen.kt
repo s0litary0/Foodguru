@@ -29,7 +29,10 @@ fun SearchScreen(
                     tags = state.tags,
                     selectedTags = state.selectedTags,
                     toggleTag = viewModel::toggleTag,
-                    onRecipeClick = onRecipeClick
+                    onRecipeClick = onRecipeClick,
+                    textFieldState = viewModel.textFieldState,
+                    searchResults = state.searchResults,
+                    onSearch = { query -> viewModel.onSearch(query) }
                 )
             }
         }
