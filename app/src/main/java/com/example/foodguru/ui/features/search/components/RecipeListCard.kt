@@ -1,4 +1,4 @@
-package com.example.foodguru.ui.features.search
+package com.example.foodguru.ui.features.search.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.example.foodguru.ui.features.search.Tag
 
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.foodguru.ui.features.home
+package com.example.foodguru.ui.features.home.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +25,6 @@ fun RecipeOfTheDay(
     recipeId: Long,
     title: String,
     image: String,
-    type: List<String>,
     onClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {

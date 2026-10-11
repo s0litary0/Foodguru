@@ -4,12 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,7 +23,6 @@ import com.example.foodguru.ui.components.ProfileNavScreen
 import com.example.foodguru.ui.components.SearchNavScreen
 import com.example.foodguru.ui.components.TitleTopAppBar
 import com.example.foodguru.ui.components.foodguruBottomNavBarScreens
-import com.example.foodguru.ui.features.home.HomeScreen
 import com.example.foodguru.ui.theme.FoodguruTheme
 
 class MainActivity : ComponentActivity() {

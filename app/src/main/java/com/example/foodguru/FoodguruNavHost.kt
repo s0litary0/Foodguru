@@ -6,7 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.foodguru.ui.features.details.RecipeDetailsScreen
-import com.example.foodguru.ui.features.home.HomeScreen
+import com.example.foodguru.ui.features.home.HomeRoute
+import com.example.foodguru.ui.features.search.SearchRoute
 import com.example.foodguru.ui.features.search.SearchScreen
 
 
@@ -21,14 +22,14 @@ fun FoodguruNavHost(
         modifier = modifier,
     ) {
         composable(route = Home.route) {
-            HomeScreen(
-                onRecipeOfTheDayClick = { recipeId ->
+            HomeRoute(
+                onRecipeClick = { recipeId ->
                     navController.navigateToSingleRecipe(recipeId)
                 }
             )
         }
         composable(route = Search.route) {
-            SearchScreen(
+            SearchRoute(
                 onRecipeClick = { recipeId ->
                     navController.navigateToSingleRecipe(recipeId)
                 }
@@ -46,7 +47,7 @@ fun FoodguruNavHost(
         ) { navBackStackEntry ->
 //            val recipeId =
 //                navBackStackEntry.arguments?.getLong(SingleRecipe.recipeIdArg)
-            RecipeDetailsScreen()
+//            RecipeDetailsScreen()
         }
     }
 }

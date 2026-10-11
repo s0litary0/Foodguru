@@ -50,15 +50,15 @@ fun RecipeDetailsScreenContent(
 }
 
 
-@Preview(
-    showBackground = true,
-)
-@Composable
-fun RecipeDetailsScreenPreview() {
-    FoodguruTheme {
-        RecipeDetailsScreenContent(
-            onSaveClick = {   },
-            recipe = getRecipeById(1L)
-        )
-    }
-}
+//@Preview(
+//    showBackground = true,
+//)
+//@Composable
+//fun RecipeDetailsScreenPreview() {
+//    FoodguruTheme {
+//        RecipeDetailsScreenContent(
+//            onSaveClick = {   },
+//            recipe = getRecipeById(1L)
+//        )
+//    }
+//}

@@ -1,40 +1,22 @@
 package com.example.foodguru.ui.features.home
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.foodguru.ui.components.ScreenLayout
+import com.example.foodguru.data.source.network.NetworkRecipe
+import com.example.foodguru.ui.features.home.components.RecipeOfTheDay
+
 
 @Composable
 fun HomeScreen(
-    onRecipeOfTheDayClick: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel()
+    recipeOfTheDay: NetworkRecipe,
+    onRecipeClick: (Long) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    ScreenLayout(
-        modifier = modifier,
-    ) {
-        when (val state = uiState) {
-            is HomeUiState.Loading -> {
-                Text(text = "Loading")
-            }
-
-            is HomeUiState.Success -> {
-                val recipe = state.recipeOfTheDay
-                RecipeOfTheDay(
-                    recipeId = recipe.id,
-                    title = recipe.name,
-                    image = recipe.image,
-                    type = recipe.mealType,
-                    onClick = { onRecipeOfTheDayClick(recipe.id) }
-                )
-            }
-        }
-    }
+    RecipeOfTheDay(
+        recipeId = recipeOfTheDay.id,
+        title = recipeOfTheDay.name,
+        image = recipeOfTheDay.image,
+        onClick = onRecipeClick,
+        modifier = modifier
+    )
 }
