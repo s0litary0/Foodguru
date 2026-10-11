@@ -2,47 +2,64 @@ package com.example.foodguru.ui.features.details
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import coil3.compose.AsyncImage
-import com.example.foodguru.R
-import com.example.foodguru.ui.components.BackTopAppBar
-import com.example.foodguru.ui.components.ScreenLayout
-import com.example.foodguru.ui.components.TitleTopAppBar
+import androidx.compose.ui.Modifier
+import com.example.foodguru.data.source.network.NetworkRecipe
+import com.example.foodguru.ui.features.details.components.RecipeHeader
+import com.example.foodguru.ui.features.details.components.RecipeIngredients
+import com.example.foodguru.ui.features.details.components.RecipeInstructions
+import com.example.foodguru.ui.features.details.components.RecipeSave
+import com.example.foodguru.ui.features.search.Recipe
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeDetailsScreen(
-    modifier: Modifier = Modifier,
-    viewModel : RecipeDetailsViewModel = viewModel(),
+    onSaveClick: () -> Unit,
+    recipe: NetworkRecipe,
+    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    ScreenLayout(
-        modifier = modifier,
+    Column(
+        modifier = modifier
     ) {
-        when(val state = uiState) {
-            is RecipeDetailsUiState.Loading -> {
-                Text(text = "Loading")
-            }
-            is RecipeDetailsUiState.Success -> {
-                RecipeDetailsScreenContent(
-                    onSaveClick = { viewModel.onSave() },
-                    recipe = state.recipe
-                )
-            }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .weight(1f)
+        ) {
+            RecipeHeader(
+                image = recipe.image,
+                title = recipe.name,
+                calories = recipe.caloriesPerServing
+            )
+            RecipeIngredients(
+                ingredients = recipe.ingredients
+            )
+            RecipeInstructions(
+                instructions = recipe.instructions
+            )
         }
+        RecipeSave(
+            onSaveClick = onSaveClick
+        )
     }
 }
+
+
+//@Preview(
+//    showBackground = true,
+//)
+//@Composable
+//fun RecipeDetailsScreenPreview() {
+//    FoodguruTheme {
+//        RecipeDetailsScreenContent(
+//            onSaveClick = {   },
+//            recipe = getRecipeById(1L)
+//        )
+//    }
+//}

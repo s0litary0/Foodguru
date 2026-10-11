@@ -1,6 +1,5 @@
-package com.example.foodguru.ui.features.details
+package com.example.foodguru.ui.features.details.components
 
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
