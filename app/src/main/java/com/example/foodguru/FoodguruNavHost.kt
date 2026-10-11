@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.foodguru.ui.features.details.RecipeDetailsRoute
 import com.example.foodguru.ui.features.details.RecipeDetailsScreen
 import com.example.foodguru.ui.features.home.HomeRoute
 import com.example.foodguru.ui.features.search.SearchRoute
@@ -45,9 +46,9 @@ fun FoodguruNavHost(
             route = SingleRecipe.routeWithArgs,
             arguments = SingleRecipe.arguments
         ) { navBackStackEntry ->
-//            val recipeId =
-//                navBackStackEntry.arguments?.getLong(SingleRecipe.recipeIdArg)
-//            RecipeDetailsScreen()
+            val recipeId =
+                navBackStackEntry.arguments?.getLong(SingleRecipe.recipeIdArg)
+            RecipeDetailsRoute()
         }
     }
 }

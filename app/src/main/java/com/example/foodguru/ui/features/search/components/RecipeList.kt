@@ -2,10 +2,12 @@ package com.example.foodguru.ui.features.search.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +24,7 @@ import com.example.foodguru.ui.features.search.Recipe
 fun RecipeList(
     recipes: List<NetworkRecipe>,
     onRecipeClick: (Long) -> Unit,
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     if (recipes.isEmpty()) {
@@ -29,10 +32,18 @@ fun RecipeList(
             contentAlignment = Alignment.Center,
             modifier = modifier.fillMaxSize()
         ) {
-            Text(
-                text = stringResource(R.string.no_recipes_found),
-                style = MaterialTheme.typography.headlineLarge
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.no_recipes_found),
+                    style = MaterialTheme.typography.headlineLarge
+                )
+                Button(onClick = onRetry) {
+                    Text(text = stringResource(R.string.retry))
+                }
+            }
         }
     } else {
         LazyVerticalGrid(

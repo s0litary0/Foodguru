@@ -1,5 +1,6 @@
 package com.example.foodguru.ui.features.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -15,6 +16,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
+private const val TAG: String = "ViewModel"
+
+
 class HomeViewModel(
     private val recipeRepository: RecipeRepository
 ) : ViewModel() {
@@ -25,7 +29,13 @@ class HomeViewModel(
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
+        Log.d(TAG, "ViewModel init - this@HomeViewModel = $this")
         getRecipeOfTheDay()
+    }
+
+    override fun onCleared() {
+        Log.d(TAG, "ViewModel onCleared - this@HomeViewModel = $this")
+        super.onCleared()
     }
 
     companion object {

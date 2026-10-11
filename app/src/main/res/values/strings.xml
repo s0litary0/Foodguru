@@ -12,4 +12,5 @@
     <string name="save">Save</string>
     <string name="tags">Tags</string>
     <string name="no_recipes_found">No recipes found</string>
+    <string name="retry">Retry</string>
 </resources>

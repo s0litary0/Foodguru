@@ -54,6 +54,7 @@ solves is fundamental and often plagues many people, including myself — “wha
 </table>
 
 ## App architecture
+### Old
 ![App architecture](./design/architecture/app_architecture.jpg)
 
 #### Trace one click
@@ -61,6 +62,12 @@ When the user on search screen taps the recipe card, the functions (events) are 
 `RecipeListCard:onClick` -> `SearchScreenContent:onRecipeClick` -> `SearchScreen:viewModel.onSearch(query)`
 
 ViewModel's onSearch edits TextFieldState.text, triggering StateFlow emit updating uiState, showing new recipes list.
+
+### Updated 
+![App architecture](./design/architecture/app_architecture_updated.jpg)
+
+#### Trace on click
+When user on search screen taps the reload button, functions are being invoked up to `SearchViewModel`'s retry function, which calls `getRecipesAndTags` method, that directly manipulates with recipeRepository through coroutine API.
 
 ## Basic build run instruction
 To build and run app, follow these steps:

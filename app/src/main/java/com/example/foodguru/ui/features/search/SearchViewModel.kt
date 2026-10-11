@@ -1,5 +1,6 @@
 package com.example.foodguru.ui.features.search
 
+import android.util.Log
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,9 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
 
+private const val TAG: String = "ViewModel"
+
+
 class SearchViewModel(
     private val recipeRepository: RecipeRepository
 ) : ViewModel() {
@@ -33,6 +37,7 @@ class SearchViewModel(
     private val _tags = MutableStateFlow<List<Tag>>(emptyList())
     private val _selectedTags = MutableStateFlow<List<Tag>>(emptyList())
     private val _isLoaded = MutableStateFlow<Boolean>(false)
+    private val _loadError = MutableStateFlow<String?>(null)
     private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
@@ -42,8 +47,14 @@ class SearchViewModel(
         .distinctUntilChanged()
 
     init {
+        Log.d(TAG, "ViewModel init - this@SearchViewModel = $this")
         getRecipesAndTags()
         observeSearch()
+    }
+
+    override fun onCleared() {
+        Log.d(TAG, "ViewModel onCleared - this@SearchViewModel = $this")
+        super.onCleared()
     }
 
     companion object {
@@ -59,7 +70,10 @@ class SearchViewModel(
 
     private fun getRecipesAndTags() {
         viewModelScope.launch {
-            _uiState.update { SearchUiState.Loading }
+            _isLoaded.value = false
+            _loadError.value = null
+            _uiState.value = SearchUiState.Loading
+
             try {
                 coroutineScope {
                     val recipesDeferred = async {
@@ -68,6 +82,7 @@ class SearchViewModel(
                     val tagsDeferred = async {
                         recipeRepository.getTags()
                     }
+
                     val recipes = recipesDeferred.await()
                     val tags = tagsDeferred.await()
 
@@ -78,7 +93,7 @@ class SearchViewModel(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                _uiState.update { SearchUiState.Error(message = e.message) }
+                _loadError.value = e.message ?: "Failed to load recipes"
             }
         }
     }
@@ -90,8 +105,13 @@ class SearchViewModel(
                 _recipes,
                 _debouncedQuery,
                 _selectedTags,
-                _isLoaded
-            ) { recipes, query, selectedTags, isLoaded ->
+                _isLoaded,
+                _loadError
+            ) { recipes, query, selectedTags, isLoaded, loadError ->
+
+                if (loadError != null) {
+                    return@combine SearchUiState.Error(loadError)
+                }
 
                 if (!isLoaded) {
                     return@combine SearchUiState.Loading
@@ -99,11 +119,11 @@ class SearchViewModel(
 
                 val filteredRecipes = recipes.filter { recipe ->
                     val matchesQuery =
-                        query.isEmpty() ||
-                        recipe.name.contains(query, ignoreCase = true)
+                        query.isEmpty() || recipe.name.contains(query, ignoreCase = true)
+
                     val matchesTags =
                         selectedTags.isEmpty() ||
-                        selectedTags.all { tag -> tag.label in recipe.tags}
+                                selectedTags.all { tag -> tag.label in recipe.tags }
 
                     matchesQuery && matchesTags
                 }
@@ -112,12 +132,11 @@ class SearchViewModel(
                     recipes = filteredRecipes,
                     tags = _tags.value,
                     selectedTags = selectedTags,
-                    searchResults = filteredRecipes.map { recipe -> recipe.name }
+                    searchResults = filteredRecipes.map { it.name }
                 )
             }.collect { state ->
-                _uiState.update { state }
+                _uiState.value = state
             }
-
         }
     }
 
@@ -132,5 +151,9 @@ class SearchViewModel(
             return
         }
         textFieldState.edit { replace(0, length, query.trim()) }
+    }
+
+    fun retry() {
+        getRecipesAndTags()
     }
 }

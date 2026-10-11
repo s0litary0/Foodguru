@@ -38,7 +38,8 @@ fun SearchRoute(
                     onRecipeClick = onRecipeClick,
                     textFieldState = viewModel.textFieldState,
                     searchResults = state.searchResults,
-                    onSearch = { query -> viewModel.onSearch(query) }
+                    onSearch = { query -> viewModel.onSearch(query) },
+                    onRetry = viewModel::retry
                 )
             }
         }

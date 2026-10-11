@@ -1,5 +1,6 @@
 package com.example.foodguru.ui.features.search
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.foodguru.data.source.network.NetworkRecipe
 import com.example.foodguru.ui.components.AppSearchBar
+import com.example.foodguru.ui.components.ScreenLayout
 import com.example.foodguru.ui.features.search.components.RecipeList
 import com.example.foodguru.ui.features.search.components.SearchTagsFilter
 import com.example.foodguru.ui.theme.FoodguruTheme
@@ -25,6 +27,7 @@ fun SearchScreen(
     textFieldState: TextFieldState,
     searchResults: List<String>,
     onSearch: (String) -> Unit,
+    onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -32,7 +35,7 @@ fun SearchScreen(
         modifier = modifier
     ) {
         AppSearchBar(
-            modifier = Modifier,
+            modifier = Modifier.fillMaxWidth(),
             textFieldState = textFieldState,
             placeholder = "Search recipes...",
             searchResults = searchResults,
@@ -47,27 +50,32 @@ fun SearchScreen(
         )
         RecipeList(
             recipes = recipes,
-            onRecipeClick = onRecipeClick
+            onRecipeClick = onRecipeClick,
+            onRetry = onRetry
         )
     }
 }
 
 
-//@Preview(
-//    showBackground = true
-//)
-//@Composable
-//fun SearchScreenPreview() {
-//    FoodguruTheme {
-//        SearchScreen(
-//            recipes = getRecipesList(),
-//            tags = getTags(),
-//            selectedTags = getTags().filterIndexed { index, tag -> index % 2 == 0 },
-//            toggleTag = {  },
-//            onRecipeClick = {   },
-//            textFieldState = TextFieldState(),
-//            searchResults = emptyList(),
-//            onSearch = {  }
-//        )
-//    }
-//}
+@Preview(
+    showBackground = true,
+//    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+fun SearchScreenPreview() {
+    FoodguruTheme {
+        ScreenLayout {
+            SearchScreen(
+                recipes = emptyList(),
+                tags = emptyList(),
+                selectedTags = emptyList(),
+                toggleTag = {  },
+                onRecipeClick = {   },
+                textFieldState = TextFieldState(),
+                searchResults = emptyList(),
+                onSearch = {  },
+                onRetry = { }
+            )
+        }
+    }
+}

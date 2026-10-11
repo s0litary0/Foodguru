@@ -370,7 +370,10 @@ class RecipeRepository {
             .distinct()
     }
 
-    suspend fun getRecipeById(id: Long): NetworkRecipe? {
+    suspend fun getRecipeById(id: Long, shouldFail: Boolean = false): NetworkRecipe? {
+        if (shouldFail) {
+            throw Exception("Should fail flag is true")
+        }
         return getRecipes().find { recipe -> recipe.id == id}
     }
 
